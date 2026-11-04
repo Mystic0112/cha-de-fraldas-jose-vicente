@@ -15,7 +15,16 @@ export function PublicPage({ client }: { client: SupabaseClient }) {
   const [selected, setSelected] = useState<Gift | null>(null)
 
   const groups = useMemo(
-    () => groupByCategory(gifts.filter((g) => g.available_quantity > 0)),
+    () =>
+      groupByCategory(
+        gifts.filter(
+          (g) =>
+            g.available_quantity > 0 &&
+            g.category !== 'Presente em PIX' &&
+            !g.category.toLowerCase().includes('pix') &&
+            !g.title.toLowerCase().includes('pix'),
+        ),
+      ),
     [gifts],
   )
 

@@ -2,6 +2,8 @@ import QRCode from 'qrcode'
 
 export interface PixConfig {
   key: string
+  displayKey: string
+  rawKey: string
   keyType: 'Aleatória' | 'CPF' | 'CNPJ' | 'Celular' | 'E-mail'
   receiverName: string
   receiverCity: string
@@ -10,18 +12,20 @@ export interface PixConfig {
 }
 
 export const pixConfig: PixConfig = {
-  // Chave PIX do Felipe. Pode ser sobrescrita via VITE_PIX_KEY no .env
-  key: import.meta.env.VITE_PIX_KEY || 'felipe.presentes@pix.com',
-  keyType: (import.meta.env.VITE_PIX_KEY_TYPE as PixConfig['keyType']) || 'E-mail',
+  // Chave PIX do Felipe. Celular padrão Bacen: +5586988591158
+  key: import.meta.env.VITE_PIX_KEY || '+5586988591158',
+  displayKey: import.meta.env.VITE_PIX_DISPLAY_KEY || '(86) 98859-1158',
+  rawKey: import.meta.env.VITE_PIX_RAW_KEY || '86988591158',
+  keyType: (import.meta.env.VITE_PIX_KEY_TYPE as PixConfig['keyType']) || 'Celular',
   receiverName: import.meta.env.VITE_PIX_RECEIVER || 'Felipe',
-  receiverCity: import.meta.env.VITE_PIX_CITY || 'SAO PAULO',
+  receiverCity: import.meta.env.VITE_PIX_CITY || 'TERESINA',
   description: 'Mimo Jose Vicente',
 }
 
 /**
  * Normaliza strings para o padrão EMVCo (sem acentos e caracteres especiais)
  */
-function cleanEmvString(text: string, maxLength: number): string {
+export function cleanEmvString(text: string, maxLength: number): string {
   return text
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -33,15 +37,15 @@ function cleanEmvString(text: string, maxLength: number): string {
 /**
  * Formata um campo no padrão TLV (Tag-Length-Value) do padrão BR Code
  */
-function formatTlv(id: string, value: string): string {
+export function formatTlv(id: string, value: string): string {
   const len = value.length.toString().padStart(2, '0')
   return `${id}${len}${value}`
 }
 
 /**
- * Calcula o CRC16 (polinômio 0x1021) padrão do Banco Central para o BR Code
+ * Calcula o CRC16 (polinômio 0x1021 CCITT-FALSE) padrão oficial do Banco Central para o BR Code
  */
-function computeCrc16(payload: string): string {
+export function computeCrc16(payload: string): string {
   let crc = 0xffff
   for (let i = 0; i < payload.length; i++) {
     crc ^= payload.charCodeAt(i) << 8
@@ -68,7 +72,7 @@ export function generatePixPayload(config: PixConfig = pixConfig, amount?: numbe
   const merchantAccount = formatTlv('26', `${gui}${key}${descriptionTlv}`)
 
   const merchantCategory = formatTlv('52', '0000')
-  const currency = formatTlv('53', '986') // BRL
+  const currency = formatTlv('53', '986') // BRL (Real brasileiro)
   const transactionAmount = amount && amount > 0
     ? formatTlv('54', amount.toFixed(2))
     : ''
@@ -79,7 +83,7 @@ export function generatePixPayload(config: PixConfig = pixConfig, amount?: numbe
 
   const rawPayload =
     formatTlv('00', '01') +
-    formatTlv('01', '12') + // 12 = QR dinâmico / estático
+    formatTlv('01', '11') + // 11 = QR Code estático reutilizável de valor livre (padrão oficial BCB)
     merchantAccount +
     merchantCategory +
     currency +
@@ -95,13 +99,13 @@ export function generatePixPayload(config: PixConfig = pixConfig, amount?: numbe
 }
 
 /**
- * Gera um Data URL (imagem base64 PNG) do QR Code PIX
+ * Gera um Data URL (imagem base64 PNG) do QR Code PIX compilado localmente via qrcode open-source
  */
 export async function generateQrCodeDataUrl(payload: string): Promise<string> {
   return QRCode.toDataURL(payload, {
     errorCorrectionLevel: 'M',
     margin: 2,
-    width: 320,
+    width: 360,
     color: {
       dark: '#0c1e40', // Azul marinho náutico elegante
       light: '#ffffff',

@@ -46,8 +46,8 @@ export function GiftsManager({ client, gifts, onChanged }: GiftsManagerProps) {
 
   return (
     <section aria-labelledby="presentes-titulo">
-      <h2 id="presentes-titulo" className="mb-3 text-lg font-bold text-baby-700 dark:text-white">
-        Presentes
+      <h2 id="presentes-titulo" className="mb-3 text-lg font-bold text-blue-950 dark:text-white font-nautical">
+        Presentes da Lista
       </h2>
       <AddGiftForm categories={categories} onAdd={addGift} />
       {error && (

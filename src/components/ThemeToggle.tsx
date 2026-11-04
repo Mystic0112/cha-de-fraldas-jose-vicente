@@ -7,7 +7,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-sm transition-all border-baby-200 bg-white/90 text-slate-700 hover:bg-baby-50 dark:border-slate-750 dark:bg-slate-900/90 dark:text-slate-200 dark:hover:bg-slate-800"
+      className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-xs transition-all border-sky-200/80 bg-white/90 text-slate-700 hover:bg-sky-50 dark:border-slate-800 dark:bg-slate-900/90 dark:text-slate-200 dark:hover:bg-slate-800 cursor-pointer"
       aria-label={`Mudar para tema ${theme === 'light' ? 'escuro' : 'claro'}`}
       title={`Alternar para tema ${theme === 'light' ? 'escuro' : 'claro'}`}
     >

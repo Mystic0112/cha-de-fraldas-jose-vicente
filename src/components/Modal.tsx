@@ -67,17 +67,17 @@ export function Modal({ title, onClose, children, locked = false }: ModalProps) 
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-3xl border border-baby-100 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:max-w-md sm:rounded-3xl"
+        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-3xl border border-sky-100 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:max-w-md sm:rounded-3xl"
       >
         <div className="mb-4 flex items-start justify-between gap-4">
-          <h2 id={titleId} className="text-xl font-bold text-baby-700 dark:text-white">
+          <h2 id={titleId} className="text-xl sm:text-2xl font-bold text-blue-950 dark:text-white font-nautical">
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
             disabled={locked}
-            className="-m-2 rounded-full p-2 text-slate-400 hover:bg-baby-50 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition"
+            className="-m-2 rounded-full p-2 text-slate-400 hover:bg-sky-50 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-100 transition cursor-pointer"
             aria-label="Fechar"
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">

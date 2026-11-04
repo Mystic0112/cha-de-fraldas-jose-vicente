@@ -4,17 +4,20 @@
 
 @theme {
   --font-sans: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-nautical: "MedievalSharp", cursive, Georgia, serif;
   
-  /* Paleta Baby (Claro) */
-  --color-baby-50: #f3f8ff;
-  --color-baby-100: #e3efff;
-  --color-baby-200: #c9e0ff;
-  --color-baby-300: #9fc6f7;
-  --color-baby-500: #4f8fd6;
-  --color-baby-600: #3a74b8;
-  --color-baby-700: #2d5c93;
-  --color-cream: #fffaf2;
-  --color-peach: #ffe3d3;
+  /* Cores Náuticas do Pequeno Marinheiro */
+  --color-nautical-navy: #0c1e40;
+  --color-nautical-deep: #071329;
+  --color-nautical-ocean: #1e3a8a;
+  --color-nautical-royal: #2563eb;
+  --color-nautical-sky: #38bdf8;
+  --color-nautical-baby: #bae6fd;
+  --color-nautical-mist: #f0f7ff;
+  --color-nautical-gold: #f59e0b;
+  --color-nautical-amber: #d97706;
+  --color-nautical-sand: #fef7ec;
+  --color-nautical-rope: #ca8a04;
 }
 
 @layer base {
@@ -22,22 +25,27 @@
     -webkit-text-size-adjust: 100%;
   }
   
-  /* Tema Claro (Padrao) */
+  /* Tema Claro (Padrao Náutico) */
   body {
-    @apply bg-cream text-slate-700 font-sans antialiased min-h-dvh transition-colors duration-200;
+    @apply bg-[#f8fafc] text-slate-700 font-sans antialiased min-h-dvh transition-colors duration-200;
+    background-color: #f8fafc;
     background-image:
-      radial-gradient(circle at 10% 0%, var(--color-baby-100) 0, transparent 40%),
-      radial-gradient(circle at 90% 10%, var(--color-peach) 0, transparent 35%);
+      radial-gradient(circle at 12% 8%, rgba(186, 230, 253, 0.45) 0, transparent 35%),
+      radial-gradient(circle at 88% 14%, rgba(254, 247, 236, 0.8) 0, transparent 40%),
+      radial-gradient(ellipse 70% 30% at 50% 100%, rgba(224, 242, 254, 0.5) 0, transparent 50%);
     background-attachment: fixed;
   }
   
-  /* Tema Escuro */
+  /* Tema Escuro (Oceano Profundo & Estrelas) */
   html.dark body {
-    @apply bg-[#0b0f17] text-slate-200;
+    @apply bg-[#060c18] text-slate-200;
+    background-color: #060c18;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.15), transparent),
-      radial-gradient(circle at 10% 20%, rgba(30, 58, 138, 0.2), transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(15, 23, 42, 0.8), transparent 50%);
+      radial-gradient(ellipse 80% 50% at 50% -15%, rgba(37, 99, 235, 0.22), transparent),
+      radial-gradient(circle at 10% 25%, rgba(12, 30, 64, 0.6), transparent 45%),
+      radial-gradient(circle at 90% 75%, rgba(15, 23, 42, 0.9), transparent 50%),
+      radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.08), transparent 30%);
+    background-attachment: fixed;
   }
 
   :focus-visible {
@@ -45,21 +53,31 @@
   }
 }
 
+.font-nautical {
+  font-family: var(--font-nautical);
+}
+
 @layer components {
   .btn-primary,
+  .btn-gold,
   .btn-ghost,
   .btn-danger {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98];
   }
   
-  /* Botao Primario: Azul baby no claro, ciano vibrante no escuro */
+  /* Botao Primario: Azul marinho nautico clássico no claro, royal ciano no escuro */
   .btn-primary {
-    @apply bg-baby-600 text-white shadow-sm hover:bg-baby-700 dark:bg-sky-500 dark:text-slate-950 dark:font-bold dark:shadow-lg dark:shadow-sky-500/20 dark:hover:bg-sky-400;
+    @apply bg-blue-900 text-white shadow-sm hover:bg-blue-950 dark:bg-sky-500 dark:text-slate-950 dark:font-bold dark:shadow-lg dark:shadow-sky-500/20 dark:hover:bg-sky-400;
+  }
+
+  /* Botão Ouro Náutico (para PIX ou Destaques) */
+  .btn-gold {
+    @apply bg-amber-600 text-white shadow-sm hover:bg-amber-700 dark:bg-amber-500 dark:text-slate-950 dark:font-bold dark:shadow-lg dark:shadow-amber-500/20 dark:hover:bg-amber-400;
   }
   
   /* Botao Neutro/Ghost */
   .btn-ghost {
-    @apply bg-white text-slate-700 border border-baby-200 hover:bg-baby-50 dark:bg-slate-800/80 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700/80 dark:hover:border-slate-600;
+    @apply bg-white text-slate-700 border border-slate-200 hover:bg-sky-50 hover:border-sky-200 dark:bg-slate-900/80 dark:text-slate-200 dark:border-slate-800 dark:hover:bg-slate-800 dark:hover:border-slate-700;
   }
   
   /* Botao Perigo */
@@ -67,9 +85,13 @@
     @apply bg-white text-rose-700 border border-rose-200 hover:bg-rose-50 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/60 dark:hover:bg-rose-900/50 dark:hover:border-rose-700;
   }
   
-  /* Cards */
+  /* Cards Náuticos */
   .card {
-    @apply rounded-2xl bg-white/90 border border-baby-100 shadow-sm backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-800/80 dark:shadow-xl;
+    @apply rounded-2xl bg-white/95 border border-sky-100 shadow-sm backdrop-blur-md dark:bg-slate-900/85 dark:border-slate-800/90 dark:shadow-xl;
+  }
+
+  .card-nautical {
+    @apply rounded-2xl bg-gradient-to-b from-white to-sky-50/50 border border-sky-200/80 shadow-sm backdrop-blur-md dark:from-slate-900/95 dark:to-slate-900/80 dark:border-slate-800/90 dark:shadow-xl;
   }
   
   /* Campos de formulario */
@@ -78,7 +100,7 @@
   }
   
   .field-input {
-    @apply w-full rounded-xl border border-baby-200 bg-white px-3.5 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:border-baby-500 focus:outline-none focus:ring-2 focus:ring-baby-200 transition dark:border-slate-700 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-500 dark:focus:ring-sky-500/30;
+    @apply w-full rounded-xl border border-sky-200/80 bg-white px-3.5 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:border-blue-800 focus:outline-none focus:ring-2 focus:ring-sky-200 transition dark:border-slate-700 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500/30;
   }
 }
 
@@ -90,4 +112,3 @@
     transition-duration: 0.01ms !important;
   }
 }
-

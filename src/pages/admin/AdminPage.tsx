@@ -20,12 +20,14 @@ export function AdminPage({ client }: { client: SupabaseClient }) {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <header className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-baby-200 dark:border-slate-800/80 pb-6">
+      <header className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-sky-200/80 dark:border-slate-800/80 pb-6">
         <div>
-          <p className="text-xs font-bold tracking-[0.2em] text-baby-500 dark:text-sky-400 uppercase">
-            Chá de Fraldas do Felipe
+          <p className="text-xs font-bold tracking-[0.2em] text-blue-900 dark:text-sky-400 uppercase">
+            Chá de Fraldas do José Vicente
           </p>
-          <h1 className="mt-1 text-2xl font-black tracking-tight text-baby-700 dark:text-white sm:text-3xl">Painel do organizador</h1>
+          <h1 className="mt-1 text-2xl font-black tracking-tight text-blue-950 dark:text-white sm:text-3xl font-nautical">
+            Painel do Organizador · Felipe
+          </h1>
         </div>
         <nav className="flex items-center gap-2.5">
           <ThemeToggle />
@@ -33,7 +35,11 @@ export function AdminPage({ client }: { client: SupabaseClient }) {
             Ver lista pública
           </a>
           {session && (
-            <button type="button" className="btn-ghost text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white" onClick={() => void client.auth.signOut()}>
+            <button
+              type="button"
+              className="btn-ghost text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+              onClick={() => void client.auth.signOut()}
+            >
               Sair
             </button>
           )}

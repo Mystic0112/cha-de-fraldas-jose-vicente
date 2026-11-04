@@ -7,6 +7,7 @@ import { groupByCategory } from '../../lib/gifts'
 import type { Gift } from '../../lib/types'
 import { GiftCategory } from './GiftCategory'
 import { Hero } from './Hero'
+import { PixBanner } from './PixBanner'
 import { ReserveModal } from './ReserveModal'
 
 export function PublicPage({ client }: { client: SupabaseClient }) {
@@ -17,19 +18,47 @@ export function PublicPage({ client }: { client: SupabaseClient }) {
     () => groupByCategory(gifts.filter((g) => g.available_quantity > 0)),
     [gifts],
   )
+
+  // Encontra o item de PIX oficial da lista ou cria um objeto de referência se ainda não estiver no banco
+  const pixGift = useMemo(() => {
+    return (
+      gifts.find((g) => g.category === 'Presente em PIX' || g.title.toLowerCase().includes('pix')) ?? {
+        id: 'pix-mimo-jose-vicente',
+        title: 'Mimo em PIX (qualquer valor)',
+        category: 'Presente em PIX',
+        total_quantity: 9999,
+        available_quantity: 9999,
+        sort_order: 1,
+        created_at: new Date().toISOString(),
+      }
+    )
+  }, [gifts])
+
   // Mantem dados atualizados do item aberto no modal (quantidade em tempo real)
-  const liveSelected = selected ? (gifts.find((g) => g.id === selected.id) ?? selected) : null
+  const liveSelected = selected
+    ? (gifts.find((g) => g.id === selected.id) ?? selected)
+    : null
+
+  function handleOpenPix() {
+    setSelected(pixGift)
+  }
 
   return (
     <div className="mx-auto max-w-3xl px-4 pb-16">
       <div className="flex justify-end pt-4 sm:pt-6">
         <ThemeToggle />
       </div>
+
       <Hero />
+
+      {/* Banner de Destaque PIX */}
+      <PixBanner onChoosePix={handleOpenPix} />
+
       <main id="lista" aria-labelledby="lista-titulo">
         <h2 id="lista-titulo" className="sr-only">
           Lista de presentes
         </h2>
+
         {loading && <StatusMessage kind="loading">Carregando a lista de presentes...</StatusMessage>}
         {!loading && error && (
           <StatusMessage kind="error" onRetry={() => void reload()}>
@@ -41,18 +70,29 @@ export function PublicPage({ client }: { client: SupabaseClient }) {
             Todos os presentes já foram escolhidos. Muito obrigado pelo carinho!
           </StatusMessage>
         )}
+
         <div className="space-y-8">
           {groups.map((group) => (
             <GiftCategory key={group.category} group={group} onChoose={setSelected} />
           ))}
         </div>
       </main>
-      <footer className="mt-16 text-center text-xs text-slate-500">
-        Feito com carinho para o Felipe ·{' '}
-        <a href="#/admin" className="text-slate-400 underline decoration-slate-600 underline-offset-4 hover:text-sky-400 hover:decoration-sky-400 transition-colors">
-          Área do organizador
-        </a>
+
+      <footer className="mt-16 text-center text-xs text-slate-500 border-t border-sky-200/50 dark:border-slate-800/80 pt-8">
+        <p className="font-medium text-slate-600 dark:text-slate-400">
+          Feito com muito amor para o pequeno marinheiro <strong className="text-blue-950 dark:text-sky-300">José Vicente</strong>
+        </p>
+        <p className="mt-2 text-slate-400">
+          Organizado por Felipe (Lipe) ·{' '}
+          <a
+            href="#/admin"
+            className="text-slate-400 underline decoration-slate-400 underline-offset-4 hover:text-blue-900 dark:hover:text-sky-300 transition-colors"
+          >
+            Área do organizador
+          </a>
+        </p>
       </footer>
+
       {liveSelected && (
         <ReserveModal client={client} gift={liveSelected} onClose={() => setSelected(null)} />
       )}

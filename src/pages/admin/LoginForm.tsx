@@ -19,9 +19,9 @@ export function LoginForm({ client }: { client: SupabaseClient }) {
   }
 
   return (
-    <section className="card mx-auto max-w-sm p-6 border-baby-100 dark:border-slate-800" aria-labelledby={`${id}-title`}>
-      <h2 id={`${id}-title`} className="mb-4 text-xl font-bold text-baby-700 dark:text-white text-center">
-        Entrar
+    <section className="card mx-auto max-w-sm p-6 border-sky-100 dark:border-slate-800" aria-labelledby={`${id}-title`}>
+      <h2 id={`${id}-title`} className="mb-4 text-2xl font-bold text-blue-950 dark:text-white text-center font-nautical">
+        Acesso do Organizador
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { StatusMessage } from '../../components/StatusMessage'
 import { downloadCsv, reservationsToCsv } from '../../lib/csv'
 import { friendlyError } from '../../lib/errors'
-import { formatDateTime } from '../../lib/gifts'
+import { formatDateTime, standardizeGiftTitle } from '../../lib/gifts'
 import type { ReservationWithGift } from '../../lib/types'
 
 interface ReservationsTableProps {
@@ -19,7 +19,8 @@ export function ReservationsTable({ client, reservations, loading, error, onChan
   const [actionError, setActionError] = useState<string | null>(null)
 
   async function cancel(r: ReservationWithGift) {
-    const ok = window.confirm(`Cancelar a reserva de ${r.guest_name} (${r.gifts?.title ?? 'presente'})?`)
+    const giftTitle = r.gifts?.title ? standardizeGiftTitle(r.gifts.title) : 'presente'
+    const ok = window.confirm(`Cancelar a reserva de ${r.guest_name} (${giftTitle})?`)
     if (!ok) return
     setBusyId(r.id)
     setActionError(null)
@@ -78,7 +79,9 @@ export function ReservationsTable({ client, reservations, loading, error, onChan
                 <tr key={r.id} className="align-top hover:bg-sky-50/40 dark:hover:bg-slate-850/50 transition-colors">
                   <td className="px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">{r.guest_name}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-slate-600 dark:text-slate-300">{r.guest_phone ?? '-'}</td>
-                  <td className="px-4 py-3 text-blue-900 dark:text-sky-300 font-medium">{r.gifts?.title ?? '(removido)'}</td>
+                  <td className="px-4 py-3 text-blue-900 dark:text-sky-300 font-medium">
+                    {r.gifts?.title ? standardizeGiftTitle(r.gifts.title) : '(removido)'}
+                  </td>
                   <td className="max-w-xs px-4 py-3 break-words whitespace-pre-line text-slate-600 dark:text-slate-300">{r.message ?? '-'}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400 text-xs">{formatDateTime(r.created_at)}</td>
                   <td className="px-4 py-3 text-right">

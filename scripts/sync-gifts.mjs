@@ -36,13 +36,13 @@ const newGifts = [
   { title: 'Mamadeira Philips Avent 260ml', category: 'Alimentação e Amamentação', total_quantity: 1, available_quantity: 1, sort_order: 20 },
   { title: 'Esterilizador de Mamadeira Philips Avent (Micro-ondas)', category: 'Alimentação e Amamentação', total_quantity: 1, available_quantity: 1, sort_order: 30 },
   { title: 'Copo de Transição Philips Avent', category: 'Alimentação e Amamentação', total_quantity: 1, available_quantity: 1, sort_order: 40 },
-  { title: 'Kit de Limpeza de Mamadeira Buba', category: 'Alimentação e Amamentação', total_quantity: 1, available_quantity: 1, sort_order: 50 },
-  { title: 'Babador de Silicone Buba', category: 'Alimentação e Amamentação', total_quantity: 2, available_quantity: 2, sort_order: 60 },
+  { title: 'Kit de Limpeza de Mamadeira - Buba', category: 'Alimentação e Amamentação', total_quantity: 1, available_quantity: 1, sort_order: 50 },
+  { title: 'Babador de Silicone - Buba', category: 'Alimentação e Amamentação', total_quantity: 2, available_quantity: 2, sort_order: 60 },
   { title: 'Termômetro Digital para Bebê - Sugestão: Omron ou Fischer', category: 'Banho e Saúde', total_quantity: 1, available_quantity: 1, sort_order: 10 },
-  { title: 'Kit Cuidados Buba', category: 'Banho e Saúde', total_quantity: 1, available_quantity: 1, sort_order: 20 },
-  { title: 'Kit Escova e Pente Buba ou similar', category: 'Banho e Saúde', total_quantity: 1, available_quantity: 1, sort_order: 30 },
+  { title: 'Kit Cuidados - Buba (Cortador, lixa, etc.)', category: 'Banho e Saúde', total_quantity: 1, available_quantity: 1, sort_order: 20 },
+  { title: 'Kit Escova e Pente - Marca Buba ou similar', category: 'Banho e Saúde', total_quantity: 1, available_quantity: 1, sort_order: 30 },
   { title: 'Toalha com Capuz 100% algodão', category: 'Banho e Saúde', total_quantity: 3, available_quantity: 3, sort_order: 40 },
-  { title: 'Kit Brinquedos de Banho Buba', category: 'Banho e Saúde', total_quantity: 2, available_quantity: 2, sort_order: 50 },
+  { title: 'Kit Brinquedos de Banho - Buba', category: 'Banho e Saúde', total_quantity: 2, available_quantity: 2, sort_order: 50 },
   { title: 'Kit Bodies Manga Curta - RN', category: 'Roupas e Enxoval', total_quantity: 2, available_quantity: 2, sort_order: 10 },
   { title: 'Kit Bodies Manga Curta - P', category: 'Roupas e Enxoval', total_quantity: 3, available_quantity: 3, sort_order: 20 },
   { title: 'Kit Bodies Manga Curta - M', category: 'Roupas e Enxoval', total_quantity: 3, available_quantity: 3, sort_order: 30 },
@@ -59,9 +59,9 @@ const newGifts = [
   { title: 'Kit Mijões (Culotes) - G', category: 'Roupas e Enxoval', total_quantity: 1, available_quantity: 1, sort_order: 140 },
   { title: 'Kit Fraldas de Boca', category: 'Roupas e Enxoval', total_quantity: 5, available_quantity: 5, sort_order: 150 },
   { title: 'Naninha', category: 'Roupas e Enxoval', total_quantity: 2, available_quantity: 2, sort_order: 160 },
-  { title: 'Trocador Portátil Buba', category: 'Roupas e Enxoval', total_quantity: 1, available_quantity: 1, sort_order: 170 },
-  { title: 'Mordedores Buba', category: 'Estímulo e Diversão', total_quantity: 2, available_quantity: 2, sort_order: 10 },
-  { title: 'Livros Sensoriais Buba', category: 'Estímulo e Diversão', total_quantity: 2, available_quantity: 2, sort_order: 20 }
+  { title: 'Trocador Portátil - Marca Buba', category: 'Roupas e Enxoval', total_quantity: 1, available_quantity: 1, sort_order: 170 },
+  { title: 'Mordedores - Buba', category: 'Estímulo e Diversão', total_quantity: 2, available_quantity: 2, sort_order: 10 },
+  { title: 'Livros Sensoriais - Buba', category: 'Estímulo e Diversão', total_quantity: 2, available_quantity: 2, sort_order: 20 }
 ]
 
 async function run() {

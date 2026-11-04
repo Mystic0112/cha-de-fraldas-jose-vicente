@@ -1,4 +1,4 @@
-import { formatDateTime } from './gifts'
+import { formatDateTime, standardizeGiftTitle } from './gifts'
 import type { ReservationWithGift } from './types'
 
 function escapeCell(value: string): string {
@@ -13,7 +13,7 @@ export function reservationsToCsv(rows: ReservationWithGift[]): string {
     [
       r.guest_name,
       r.guest_phone ?? '',
-      r.gifts?.title ?? '',
+      r.gifts?.title ? standardizeGiftTitle(r.gifts.title) : '',
       r.gifts?.category ?? '',
       r.message ?? '',
       formatDateTime(r.created_at),

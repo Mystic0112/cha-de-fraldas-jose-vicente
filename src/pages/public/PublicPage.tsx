@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { StatusMessage } from '../../components/StatusMessage'
 import { ThemeToggle } from '../../components/ThemeToggle'
 import { useGifts } from '../../hooks/useGifts'
-import { groupByCategory } from '../../lib/gifts'
+import { groupByCategory, normalizeGift } from '../../lib/gifts'
 import type { Gift } from '../../lib/types'
 import { GiftCategory } from './GiftCategory'
 import { Hero } from './Hero'
@@ -13,6 +13,7 @@ import { ReserveModal } from './ReserveModal'
 export function PublicPage({ client }: { client: SupabaseClient }) {
   const { gifts, loading, error, reload } = useGifts(client, 'public-gifts')
   const [selected, setSelected] = useState<Gift | null>(null)
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({})
 
   const groups = useMemo(
     () =>
@@ -27,6 +28,33 @@ export function PublicPage({ client }: { client: SupabaseClient }) {
       ),
     [gifts],
   )
+
+  function isCategoryOpen(category: string): boolean {
+    return openCategories[category] !== undefined ? openCategories[category] : true
+  }
+
+  function handleToggleCategory(category: string) {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [category]: !isCategoryOpen(category),
+    }))
+  }
+
+  function handleExpandAll() {
+    const updated: Record<string, boolean> = {}
+    for (const group of groups) {
+      updated[group.category] = true
+    }
+    setOpenCategories(updated)
+  }
+
+  function handleCollapseAll() {
+    const updated: Record<string, boolean> = {}
+    for (const group of groups) {
+      updated[group.category] = false
+    }
+    setOpenCategories(updated)
+  }
 
   // Encontra o item de PIX oficial da lista ou cria um objeto de referência se ainda não estiver no banco
   const pixGift = useMemo(() => {
@@ -80,9 +108,40 @@ export function PublicPage({ client }: { client: SupabaseClient }) {
           </StatusMessage>
         )}
 
-        <div className="space-y-8">
+        {groups.length > 0 && (
+          <div className="mb-4 flex items-center justify-between px-2 py-1 text-xs text-slate-500 dark:text-slate-400">
+            <span className="font-medium text-slate-600 dark:text-slate-300">
+              {groups.length} {groups.length === 1 ? 'categoria' : 'categorias'}
+            </span>
+            <div className="flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={handleExpandAll}
+                className="font-medium text-blue-700 hover:text-blue-900 dark:text-sky-400 dark:hover:text-sky-300 hover:underline underline-offset-2 transition-colors cursor-pointer"
+              >
+                Expandir todas
+              </button>
+              <span className="text-slate-300 dark:text-slate-700" aria-hidden="true">·</span>
+              <button
+                type="button"
+                onClick={handleCollapseAll}
+                className="font-medium text-blue-700 hover:text-blue-900 dark:text-sky-400 dark:hover:text-sky-300 hover:underline underline-offset-2 transition-colors cursor-pointer"
+              >
+                Recolher todas
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-6 sm:space-y-8">
           {groups.map((group) => (
-            <GiftCategory key={group.category} group={group} onChoose={setSelected} />
+            <GiftCategory
+              key={group.category}
+              group={group}
+              onChoose={setSelected}
+              isOpen={isCategoryOpen(group.category)}
+              onToggle={() => handleToggleCategory(group.category)}
+            />
           ))}
         </div>
       </main>
@@ -103,7 +162,11 @@ export function PublicPage({ client }: { client: SupabaseClient }) {
       </footer>
 
       {liveSelected && (
-        <ReserveModal client={client} gift={liveSelected} onClose={() => setSelected(null)} />
+        <ReserveModal
+          client={client}
+          gift={normalizeGift(liveSelected)}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   )

@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import type { Gift, GiftGroup } from '../../lib/types'
 import { GiftCard } from './GiftCard'
 
 interface GiftCategoryProps {
   group: GiftGroup
   onChoose: (gift: Gift) => void
+  isOpen?: boolean
+  onToggle?: () => void
 }
 
 function CategoryIcon({ category }: { category: string }) {
@@ -66,7 +69,7 @@ function CategoryIcon({ category }: { category: string }) {
   return (
     <svg viewBox="0 0 24 24" className="w-5 h-5 text-blue-800 dark:text-sky-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="8" />
-      <circle cx="12" cy="12" r="2" />
+      <circle cx="12" cy="2" r="2" />
       <line x1="12" y1="2" x2="12" y2="22" />
       <line x1="2" y1="12" x2="22" y2="12" />
       <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
@@ -75,30 +78,100 @@ function CategoryIcon({ category }: { category: string }) {
   )
 }
 
-export function GiftCategory({ group, onChoose }: GiftCategoryProps) {
-  const headingId = `cat-${group.category.replace(/\W+/g, '-').toLowerCase()}`
+export function GiftCategory({
+  group,
+  onChoose,
+  isOpen: controlledIsOpen,
+  onToggle: controlledOnToggle,
+}: GiftCategoryProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(true)
+  const isControlled = controlledIsOpen !== undefined
+  const isOpen = isControlled ? controlledIsOpen : internalIsOpen
+
+  function handleToggle() {
+    if (isControlled && controlledOnToggle) {
+      controlledOnToggle()
+    } else {
+      setInternalIsOpen((prev) => !prev)
+    }
+  }
+
+  const categorySlug = group.category.replace(/\W+/g, '-').toLowerCase()
+  const headingId = `cat-heading-${categorySlug}`
+  const buttonId = `cat-btn-${categorySlug}`
+  const contentId = `cat-content-${categorySlug}`
+
+  const count = group.gifts.length
+  const countLabel = count === 1 ? '1 item disponível' : `${count} itens disponíveis`
 
   return (
     <section aria-labelledby={headingId} className="scroll-mt-6">
-      <div className="mb-3.5 flex items-center gap-3 px-1">
-        <div
-          aria-hidden="true"
-          className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100/70 border border-blue-200/60 dark:bg-slate-800 dark:border-slate-700 shadow-xs"
-        >
-          <CategoryIcon category={group.category} />
-        </div>
-        <h3 id={headingId} className="text-xl sm:text-2xl font-bold tracking-wide text-blue-950 dark:text-white font-nautical">
-          {group.category}
+      <div className="mb-2">
+        <h3 id={headingId}>
+          <button
+            id={buttonId}
+            type="button"
+            onClick={handleToggle}
+            aria-expanded={isOpen}
+            aria-controls={contentId}
+            className="w-full group flex items-center justify-between gap-3 px-3 py-2.5 -mx-1 rounded-2xl text-left transition-all duration-200 hover:bg-sky-100/60 dark:hover:bg-slate-800/60 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 dark:focus-visible:ring-sky-400 cursor-pointer select-none"
+          >
+            <div className="flex flex-1 items-center gap-3 min-w-0">
+              <div
+                aria-hidden="true"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-100/80 border border-blue-200/70 dark:bg-slate-800 dark:border-slate-700 shadow-2xs text-blue-900 dark:text-sky-400 group-hover:scale-105 transition-transform"
+              >
+                <CategoryIcon category={group.category} />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 min-w-0">
+                <span className="text-lg sm:text-2xl font-bold tracking-wide text-blue-950 dark:text-white font-nautical">
+                  {group.category}
+                </span>
+                <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800 text-blue-800 dark:text-sky-300 border border-blue-200/70 dark:border-slate-700 px-2.5 py-0.5 text-xs font-sans font-medium whitespace-nowrap">
+                  {countLabel}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <div
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100/60 border border-blue-200/60 text-blue-900 dark:bg-slate-800 dark:border-slate-700 dark:text-sky-300 transition-colors shadow-2xs group-hover:bg-blue-200/70 dark:group-hover:bg-slate-700"
+                aria-hidden="true"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className={`w-4 h-4 transition-transform duration-300 ease-in-out ${
+                    isOpen ? 'rotate-180' : 'rotate-0'
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </div>
+            </div>
+          </button>
         </h3>
-        <div className="h-px flex-1 bg-gradient-to-r from-blue-200 to-transparent dark:from-slate-800" aria-hidden="true" />
       </div>
-      <ul className="grid gap-3 sm:grid-cols-2">
-        {group.gifts.map((gift) => (
-          <li key={gift.id}>
-            <GiftCard gift={gift} onChoose={onChoose} />
-          </li>
-        ))}
-      </ul>
+
+      <div
+        id={contentId}
+        role="region"
+        aria-labelledby={headingId}
+        className={isOpen ? 'block pt-1' : 'hidden'}
+      >
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {group.gifts.map((gift) => (
+            <li key={gift.id}>
+              <GiftCard gift={gift} onChoose={onChoose} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }

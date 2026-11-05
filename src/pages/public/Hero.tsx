@@ -5,70 +5,53 @@ export function Hero() {
     <header className="py-6 sm:py-10 text-center relative">
       {/* Cenário Náutico 3D Interativo com Three.js (Pequeno Marinheiro) */}
       <div className="relative mx-auto mb-6 flex items-center justify-center">
-        {/* Âncora Esquerda Decorativa (Desktop) */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block absolute -left-12 top-1/2 -translate-y-1/2 opacity-35 dark:opacity-25 pointer-events-none transition-transform hover:scale-110"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="w-10 h-10 text-amber-600 dark:text-amber-400"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+        {/* Palco Náutico 3D com Three.js */}
+        <div className="relative w-full max-w-xl h-56 sm:h-72 rounded-3xl overflow-hidden border border-sky-200/80 dark:border-blue-900/60 bg-gradient-to-b from-sky-100/50 via-sky-50/20 to-transparent dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-950/40 shadow-lg shadow-blue-950/5 dark:shadow-blue-950/40 backdrop-blur-xs">
+          <NauticalMotionScene className="w-full h-full" />
+        </div>
+      </div>
+
+      {/* Decoração Náutica Superior: Timão & Âncora */}
+      <div className="relative mx-auto mb-6 flex items-center justify-center">
+        {/* Âncora Esquerda Decorativa */}
+        <div aria-hidden="true" className="hidden sm:block absolute left-1/2 -translate-x-32 top-3 opacity-40 dark:opacity-30">
+          <svg viewBox="0 0 24 24" className="w-8 h-8 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="5" r="3" />
             <line x1="12" y1="8" x2="12" y2="21" />
             <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
           </svg>
         </div>
 
-        {/* Palco Náutico 3D com Three.js */}
-        <div className="relative w-full max-w-xl h-56 sm:h-72 rounded-3xl overflow-hidden border border-sky-200/80 dark:border-blue-900/60 bg-gradient-to-b from-sky-100/50 via-sky-50/20 to-transparent dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-950/40 shadow-lg shadow-blue-950/5 dark:shadow-blue-950/40 backdrop-blur-xs">
-          <NauticalMotionScene className="w-full h-full" />
-
-          {/* Selo Náutico Superior no Cenário */}
-          <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full px-3 py-1 bg-white/85 dark:bg-slate-900/85 border border-sky-200/70 dark:border-blue-800/70 text-blue-950 dark:text-sky-300 shadow-xs pointer-events-none backdrop-blur-xs">
-            <span className="h-2 w-2 rounded-full bg-amber-500 animate-ping" aria-hidden="true" />
-            <span className="text-[11px] font-bold tracking-wider uppercase font-sans">
-              Maré em Tempo Real
-            </span>
-          </div>
-
-          {/* Dica de Navegação Náutica */}
-          <div className="absolute bottom-2.5 right-3 flex items-center gap-1.5 rounded-full px-2.5 py-1 bg-white/80 dark:bg-slate-900/80 border border-sky-200/50 dark:border-blue-800/50 text-[10px] font-medium text-slate-500 dark:text-slate-400 pointer-events-none backdrop-blur-xs">
-            <svg
-              viewBox="0 0 24 24"
-              className="w-3 h-3 text-amber-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
-            </svg>
-            <span>Mova o mouse ou toque para navegar</span>
-          </div>
-        </div>
-
-        {/* Boia / Rosa dos Ventos Direita Decorativa (Desktop) */}
+        {/* Timão de Navio Central Náutico */}
         <div
           aria-hidden="true"
-          className="hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 opacity-35 dark:opacity-25 pointer-events-none transition-transform hover:scale-110"
+          className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-900 to-slate-900 border-2 border-amber-500/80 shadow-lg shadow-blue-950/20 ring-4 ring-sky-100 dark:ring-blue-900/40 transition-transform hover:rotate-45 duration-700"
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="w-10 h-10 text-amber-600 dark:text-amber-400"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          {/* Timão em SVG detalhado */}
+          <svg viewBox="0 0 100 100" className="h-16 w-16 text-amber-400" fill="currentColor">
+            {/* Aro Externo */}
+            <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" strokeWidth="5" />
+            {/* Aro Interno */}
+            <circle cx="50" cy="50" r="24" fill="none" stroke="currentColor" strokeWidth="3" />
+            {/* Cubo Central */}
+            <circle cx="50" cy="50" r="11" fill="currentColor" />
+            <circle cx="50" cy="50" r="5" fill="#0c1e40" />
+            {/* Raios do Timão */}
+            <line x1="50" y1="2" x2="50" y2="98" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+            <line x1="2" y1="50" x2="98" y2="50" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+            <line x1="16" y1="16" x2="84" y2="84" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+            <line x1="16" y1="84" x2="84" y2="16" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+            {/* Puxadores do Timão */}
+            <circle cx="50" cy="3" r="3" />
+            <circle cx="50" cy="97" r="3" />
+            <circle cx="3" cy="50" r="3" />
+            <circle cx="97" cy="50" r="3" />
+          </svg>
+        </div>
+
+        {/* Boia / Farol Direita Decorativa */}
+        <div aria-hidden="true" className="hidden sm:block absolute right-1/2 translate-x-32 top-3 opacity-40 dark:opacity-30">
+          <svg viewBox="0 0 24 24" className="w-8 h-8 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10" />
             <circle cx="12" cy="12" r="4" />
             <line x1="4.93" y1="4.93" x2="9.17" y2="9.17" />

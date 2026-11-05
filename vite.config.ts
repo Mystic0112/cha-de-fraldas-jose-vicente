@@ -7,6 +7,15 @@ export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
   build: {
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('three')) {
+            return 'three'
+          }
+        },
+      },
+    },
   },
 })
